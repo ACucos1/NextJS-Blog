@@ -1,16 +1,122 @@
-html,
-body {
+* {
   padding: 0;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+h1{
+  font-size: 70px;
+
 }
 
-* {
-  box-sizing: border-box;
+h2 {
+  font-size: 35px;
+}
+
+p {
+  font-size: 20px;
+}
+
+.btn, button {
+  display: block;
+  text-decoration: none;
+  color: white;
+  background-color: rgb(35, 101, 163);
+  /* border-radius: 25px; */
+  width: 100px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  transition: all 0.25s ease;
+  margin-top: 1em;
+  border: none;
+}
+
+.btn:hover, button:hover {
+  background-color: rgb(16, 44, 70);
+}
+
+
+header div{
+  height: 100px;
+  box-shadow: 0 0 15px 5px rgba(128, 128, 128, 0.438);
+  display: flex;
+  align-items: center;
+  justify-content: left;
+
+}
+
+header .container a {
+  margin-right: 16px;
+}
+
+header h2 {
+  /* line-height: 90px; */
+  margin-left: 16px;
+}
+
+.container{
+  max-width: 1300px;
+  margin: 0 auto;
+  /* background-color: red; */
+}
+
+.container .publish {
+  margin: auto;
+  margin-top: 1em;
+}
+
+.container .posts {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.container .posts .card {
+  width: 400px;
+  height: 600px;
+  border: 1px solid rgb(0, 0, 0);
+  /* border-radius: 25px; */
+  /* box-shadow: 0 0 5px 5px rgba(141, 141, 141, 0.335); */
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
+  margin: 16px auto;
+}
+
+.container .posts .card img {
+  height: 210px;
+  /* width: 200px; */
+}
+
+.container .posts .card .card-content {
+  width: 80%;
+}
+
+.container .posts .card .post-date {
+  font-style: italic;
+}
+
+.container .posts .card .card-content p {
+  height: 80px;
+}
+
+.card-page {
+  padding: 0 2em;
+}
+
+.card-page .page-content .post-body {
+  word-wrap: break-word;
+}
+
+.post-body > div > pre > code {
+  width: 400px;
+}
+
+
+@media screen and (max-width: 450px){
+  .container {
+    flex-direction: column;
+  }
 }

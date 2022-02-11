@@ -1,0 +1,29 @@
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* border: 1px solid black; */
+    padding: 1em;
+    box-shadow: 0 0 15px 15px rgba(128, 128, 128, 0.13);
+}
+
+.formContainer form > * {
+    display: block;
+}
+
+.formContainer form textarea {
+    resize: none;
+    height: 500px;
+    width: 800px;
+}
+
+.formContainer form textarea, .formContainer form input {
+    border: 1px solid black;
+}
+
+.formContainer form textarea:focus, .formContainer form input:focus {
+    outline: none;
+
+}
+
