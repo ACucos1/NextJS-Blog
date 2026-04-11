@@ -1,59 +1,77 @@
-import { headers as getHeaders } from 'next/headers.js'
-import Image from 'next/image'
-import { getPayload } from 'payload'
-import React from 'react'
-import { fileURLToPath } from 'url'
+import { PostList } from '@/components/posts/PostList'
+import { RichText } from '@/components/rich-text/RichText'
+import { Container } from '@/components/ui/Container'
+import { SectionHeading } from '@/components/ui/SectionHeading'
+import { getPostsByIDs, getRecentPosts } from '@/lib/queries/posts'
+import { getHomepageSettings } from '@/lib/queries/site'
+import type { Homepage } from '@/payload-types'
 
-import config from '@/payload.config'
-import './styles.css'
+const getFeaturedPostIDs = (homepage: Homepage | null): number[] => {
+  const featuredPosts = homepage?.featuredPosts
+
+  if (!Array.isArray(featuredPosts)) {
+    return []
+  }
+
+  return featuredPosts
+    .map((featuredPost) => {
+      if (typeof featuredPost === 'number') {
+        return featuredPost
+      }
+
+      if (featuredPost && typeof featuredPost === 'object' && typeof featuredPost.id === 'number') {
+        return featuredPost.id
+      }
+
+      return null
+    })
+    .filter((value): value is number => typeof value === 'number')
+}
 
 export default async function HomePage() {
-  const headers = await getHeaders()
-  const payloadConfig = await config
-  const payload = await getPayload({ config: payloadConfig })
-  const { user } = await payload.auth({ headers })
+  const homepage = await getHomepageSettings()
 
-  const fileURL = `vscode://file/${fileURLToPath(import.meta.url)}`
+  const featuredIDs = getFeaturedPostIDs(homepage).slice(0, 3)
+  const recentWorkLimit = homepage?.recentWorkLimit ?? 5
+
+  let featuredPosts = featuredIDs.length > 0 ? await getPostsByIDs(featuredIDs) : []
+  let recentPosts = []
+
+  if (featuredPosts.length === 0) {
+    const fallbackPosts = await getRecentPosts({
+      limit: Math.max(recentWorkLimit + 3, 6),
+    })
+
+    featuredPosts = fallbackPosts.slice(0, 3)
+    recentPosts = fallbackPosts.slice(3, 3 + recentWorkLimit)
+  } else {
+    recentPosts = await getRecentPosts({
+      excludeSlugs: featuredPosts.map((post) => post.slug),
+      limit: recentWorkLimit,
+    })
+  }
 
   return (
-    <div className="home">
-      <div className="content">
-        <picture>
-          <source srcSet="https://raw.githubusercontent.com/payloadcms/payload/main/packages/ui/src/assets/payload-favicon.svg" />
-          <Image
-            alt="Payload Logo"
-            height={65}
-            src="https://raw.githubusercontent.com/payloadcms/payload/main/packages/ui/src/assets/payload-favicon.svg"
-            width={65}
-          />
-        </picture>
-        {!user && <h1>Welcome to your new project.</h1>}
-        {user && <h1>Welcome back, {user.email}</h1>}
-        <div className="links">
-          <a
-            className="admin"
-            href={payloadConfig.routes.admin}
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Go to admin panel
-          </a>
-          <a
-            className="docs"
-            href="https://payloadcms.com/docs"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Documentation
-          </a>
-        </div>
-      </div>
-      <div className="footer">
-        <p>Update this page by editing</p>
-        <a className="codeLink" href={fileURL}>
-          <code>app/(frontend)/page.tsx</code>
-        </a>
-      </div>
-    </div>
+    <Container className="home-page">
+      <section className="hero">
+        <p className="hero__eyebrow">Personal blog</p>
+        <h1>{homepage?.headline || 'Notes on building, design, and software.'}</h1>
+        {homepage?.intro ? (
+          <RichText className="hero__intro hero__intro-rich-text" content={homepage.intro} />
+        ) : (
+          <p className="hero__intro">Welcome to my corner of the web.</p>
+        )}
+      </section>
+
+      <section className="home-section">
+        <SectionHeading>{homepage?.featuredSectionHeading || 'Featured'}</SectionHeading>
+        <PostList posts={featuredPosts} />
+      </section>
+
+      <section className="home-section">
+        <SectionHeading>{homepage?.recentWorkHeading || 'Recent work'}</SectionHeading>
+        <PostList posts={recentPosts} />
+      </section>
+    </Container>
   )
 }
