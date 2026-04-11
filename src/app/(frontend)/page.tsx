@@ -1,9 +1,12 @@
 import { PostList } from '@/components/posts/PostList'
+import type { Metadata } from 'next'
+
 import { RichText } from '@/components/rich-text/RichText'
 import { Container } from '@/components/ui/Container'
 import { SectionHeading } from '@/components/ui/SectionHeading'
+import { buildMetadata } from '@/lib/metadata'
 import { getPostsByIDs, getRecentPosts } from '@/lib/queries/posts'
-import { getHomepageSettings } from '@/lib/queries/site'
+import { getHomepageSettings, getSiteSettings } from '@/lib/queries/site'
 import type { Homepage } from '@/payload-types'
 
 const getFeaturedPostIDs = (homepage: Homepage | null): number[] => {
@@ -26,6 +29,18 @@ const getFeaturedPostIDs = (homepage: Homepage | null): number[] => {
       return null
     })
     .filter((value): value is number => typeof value === 'number')
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const [homepage, siteSettings] = await Promise.all([getHomepageSettings(), getSiteSettings()])
+
+  return buildMetadata({
+    canonicalPath: '/',
+    description: siteSettings?.defaultMetaDescription,
+    siteSettings,
+    title: homepage?.headline || siteSettings?.defaultMetaTitle || siteSettings?.siteName,
+    type: 'website',
+  })
 }
 
 export default async function HomePage() {

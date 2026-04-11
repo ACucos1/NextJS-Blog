@@ -1,14 +1,40 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
 
 import { PostList } from '@/components/posts/PostList'
 import { Container } from '@/components/ui/Container'
+import { buildMetadata } from '@/lib/metadata'
 import { DEFAULT_POST_PAGE_SIZE, getPaginatedPosts } from '@/lib/queries/posts'
+import { getSiteSettings } from '@/lib/queries/site'
 
 type Props = {
   params: Promise<{
     pageNumber: string
   }>
+}
+
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const [{ pageNumber }, siteSettings] = await Promise.all([props.params, getSiteSettings()])
+  const parsedPage = Number.parseInt(pageNumber, 10)
+
+  if (!Number.isFinite(parsedPage) || parsedPage <= 1) {
+    return buildMetadata({
+      canonicalPath: '/blog',
+      description: 'Latest writing and archived posts.',
+      siteSettings,
+      title: 'Blog',
+      type: 'website',
+    })
+  }
+
+  return buildMetadata({
+    canonicalPath: `/blog/page/${parsedPage}`,
+    description: `Blog archive page ${parsedPage}.`,
+    siteSettings,
+    title: `Blog — Page ${parsedPage}`,
+    type: 'website',
+  })
 }
 
 export default async function BlogPageNumber(props: Props) {

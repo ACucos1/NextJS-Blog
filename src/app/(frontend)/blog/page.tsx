@@ -1,8 +1,23 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 
 import { PostList } from '@/components/posts/PostList'
 import { Container } from '@/components/ui/Container'
+import { buildMetadata } from '@/lib/metadata'
 import { DEFAULT_POST_PAGE_SIZE, getPaginatedPosts } from '@/lib/queries/posts'
+import { getSiteSettings } from '@/lib/queries/site'
+
+export async function generateMetadata(): Promise<Metadata> {
+  const siteSettings = await getSiteSettings()
+
+  return buildMetadata({
+    canonicalPath: '/blog',
+    description: 'Latest writing and archived posts.',
+    siteSettings,
+    title: 'Blog',
+    type: 'website',
+  })
+}
 
 export default async function BlogPage() {
   const posts = await getPaginatedPosts(1, DEFAULT_POST_PAGE_SIZE)

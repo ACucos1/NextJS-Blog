@@ -41,6 +41,11 @@ export type PostDetail = PostPreview & {
   seo: NonNullable<Post['seo']> | null
 }
 
+export type PublishedPostEntry = {
+  slug: string
+  updatedAt: string
+}
+
 const mapPostPreview = (post: Post): PostPreview => {
   return {
     categories: getPopulatedCategories(post.categories).map((category) => ({
@@ -155,6 +160,24 @@ export const getPostsByCategorySlug = async (categorySlug: string) => {
   })
 
   return result.docs.map(mapPostPreview)
+}
+
+export const getPublishedPostEntries = async (): Promise<PublishedPostEntry[]> => {
+  const payload = await getPayloadClient()
+
+  const result = await payload.find({
+    collection: 'posts',
+    depth: 0,
+    limit: 1000,
+    overrideAccess: false,
+    sort: '-publishedAt',
+    where: basePostWhere,
+  })
+
+  return result.docs.map((post) => ({
+    slug: post.slug,
+    updatedAt: post.updatedAt,
+  }))
 }
 
 export const getPostsByIDs = async (ids: number[]) => {

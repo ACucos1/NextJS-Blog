@@ -1,8 +1,10 @@
+import type { Metadata } from 'next'
 import { Inter, JetBrains_Mono } from 'next/font/google'
 import React from 'react'
 
 import { SiteFooter } from '@/components/site/SiteFooter'
 import { SiteHeader } from '@/components/site/SiteHeader'
+import { buildMetadata } from '@/lib/metadata'
 import { getNavigationPages, getSiteSettings } from '@/lib/queries/site'
 
 import './styles.css'
@@ -17,9 +19,14 @@ const jetbrainsMono = JetBrains_Mono({
   variable: '--font-mono',
 })
 
-export const metadata = {
-  description: 'Personal blog built with Payload CMS and Next.js',
-  title: 'My Blog',
+export async function generateMetadata(): Promise<Metadata> {
+  const siteSettings = await getSiteSettings()
+
+  return buildMetadata({
+    description: siteSettings?.defaultMetaDescription,
+    siteSettings,
+    title: siteSettings?.defaultMetaTitle || siteSettings?.siteName,
+  })
 }
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
