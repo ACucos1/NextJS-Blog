@@ -12,6 +12,7 @@ import { Posts } from './collections/Posts'
 import { Users } from './collections/Users'
 import { Homepage } from './globals/Homepage'
 import { SiteSettings } from './globals/SiteSettings'
+import { getStoragePlugins } from './lib/s3Storage'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -36,5 +37,5 @@ export default buildConfig({
     },
   }),
   sharp,
-  plugins: [],
+  plugins: [...getStoragePlugins()],
 })

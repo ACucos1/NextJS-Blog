@@ -29,6 +29,15 @@ export const requestRevalidation = async ({
   const secret = process.env.REVALIDATION_SECRET
 
   if (!siteURL || !secret) {
+    req.payload.logger.warn(
+      `Skipping revalidation request from ${source}: missing ${[
+        !siteURL ? 'NEXT_PUBLIC_SITE_URL' : null,
+        !secret ? 'REVALIDATION_SECRET' : null,
+      ]
+        .filter(Boolean)
+        .join(', ')}`,
+    )
+
     return
   }
 
