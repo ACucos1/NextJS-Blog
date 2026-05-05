@@ -251,6 +251,7 @@ img {
 .post-card__image {
   aspect-ratio: 16 / 9;
   object-fit: cover;
+  object-position: center bottom;
   width: 100%;
 }
 
@@ -303,6 +304,7 @@ img {
   aspect-ratio: 16 / 9;
   border-radius: var(--radius-m);
   object-fit: cover;
+  object-position: center bottom;
   width: 100%;
 }
 
