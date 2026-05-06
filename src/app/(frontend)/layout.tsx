@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter, JetBrains_Mono } from 'next/font/google'
+import { Inter, JetBrains_Mono, Source_Serif_4 } from 'next/font/google'
 import React from 'react'
 
 import { SiteFooter } from '@/components/site/SiteFooter'
@@ -19,6 +19,11 @@ const jetbrainsMono = JetBrains_Mono({
   variable: '--font-mono',
 })
 
+const sourceSerif = Source_Serif_4({
+  subsets: ['latin'],
+  variable: '--font-serif',
+})
+
 export async function generateMetadata(): Promise<Metadata> {
   const siteSettings = await getSiteSettings()
 
@@ -35,7 +40,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   const [siteSettings, navigationPages] = await Promise.all([getSiteSettings(), getNavigationPages()])
 
   return (
-    <html className={`${inter.variable} ${jetbrainsMono.variable}`} lang="en">
+    <html className={`${inter.variable} ${jetbrainsMono.variable} ${sourceSerif.variable}`} lang="en">
       <body>
         <a className="skip-link" href="#main-content">
           Skip to content
