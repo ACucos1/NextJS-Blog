@@ -630,8 +630,6 @@ export interface Homepage {
   portrait?: (number | null) | Media;
   featuredSectionHeading?: string | null;
   featuredPosts?: (number | Post)[] | null;
-  recentWorkHeading?: string | null;
-  recentWorkLimit: number;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -670,8 +668,6 @@ export interface HomepageSelect<T extends boolean = true> {
   portrait?: T;
   featuredSectionHeading?: T;
   featuredPosts?: T;
-  recentWorkHeading?: T;
-  recentWorkLimit?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

@@ -42,19 +42,6 @@ export const Homepage: GlobalConfig = {
         return true
       },
     },
-    {
-      name: 'recentWorkHeading',
-      type: 'text',
-      defaultValue: 'Recent work',
-    },
-    {
-      name: 'recentWorkLimit',
-      type: 'number',
-      min: 1,
-      max: 10,
-      defaultValue: 5,
-      required: true,
-    },
   ],
   hooks: {
     afterChange: [revalidateHomepageAfterChange],

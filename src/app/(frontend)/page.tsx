@@ -47,23 +47,11 @@ export default async function HomePage() {
   const homepage = await getHomepageSettings()
 
   const featuredIDs = getFeaturedPostIDs(homepage).slice(0, 3)
-  const recentWorkLimit = homepage?.recentWorkLimit ?? 5
 
   let featuredPosts = featuredIDs.length > 0 ? await getPostsByIDs(featuredIDs) : []
-  let recentPosts = []
 
   if (featuredPosts.length === 0) {
-    const fallbackPosts = await getRecentPosts({
-      limit: Math.max(recentWorkLimit + 3, 6),
-    })
-
-    featuredPosts = fallbackPosts.slice(0, 3)
-    recentPosts = fallbackPosts.slice(3, 3 + recentWorkLimit)
-  } else {
-    recentPosts = await getRecentPosts({
-      excludeSlugs: featuredPosts.map((post) => post.slug),
-      limit: recentWorkLimit,
-    })
+    featuredPosts = await getRecentPosts({ limit: 3 })
   }
 
   return (
@@ -83,10 +71,6 @@ export default async function HomePage() {
         <PostList posts={featuredPosts} />
       </section>
 
-      <section className="home-section">
-        <SectionHeading>{homepage?.recentWorkHeading || 'Recent work'}</SectionHeading>
-        <PostList posts={recentPosts} />
-      </section>
     </Container>
   )
 }
