@@ -40,7 +40,28 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   const [siteSettings, navigationPages] = await Promise.all([getSiteSettings(), getNavigationPages()])
 
   return (
-    <html className={`${inter.variable} ${jetbrainsMono.variable} ${sourceSerif.variable}`} lang="en">
+    <html
+      className={`${inter.variable} ${jetbrainsMono.variable} ${sourceSerif.variable}`}
+      lang="en"
+      suppressHydrationWarning
+    >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+(function () {
+  try {
+    var theme = window.localStorage.getItem('theme');
+    if (theme !== 'dark' && theme !== 'light') {
+      theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    document.documentElement.dataset.theme = theme;
+  } catch (_) {}
+})();
+            `.trim(),
+          }}
+        />
+      </head>
       <body>
         <a className="skip-link" href="#main-content">
           Skip to content
