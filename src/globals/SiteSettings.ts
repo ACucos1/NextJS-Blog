@@ -11,61 +11,63 @@ export const SiteSettings: GlobalConfig = {
   },
   fields: [
     {
-      name: 'siteName',
-      type: 'text',
-      required: true,
-    },
-    {
-      name: 'siteTagline',
-      type: 'text',
-    },
-    {
-      name: 'defaultMetaTitle',
-      type: 'text',
-    },
-    {
-      name: 'defaultMetaDescription',
-      type: 'textarea',
-      required: true,
-    },
-    {
-      name: 'defaultOGImage',
-      type: 'relationship',
-      relationTo: 'media',
-    },
-    {
-      name: 'authorName',
-      type: 'text',
-      required: true,
-    },
-    {
-      name: 'authorBio',
-      type: 'textarea',
-    },
-    {
-      name: 'authorImage',
-      type: 'relationship',
-      relationTo: 'media',
-    },
-    {
-      name: 'socialLinks',
-      type: 'array',
-      fields: [
+      type: 'tabs',
+      tabs: [
         {
-          name: 'label',
-          type: 'text',
-          required: true,
+          label: 'Brand',
+          fields: [
+            {
+              name: 'siteName',
+              type: 'text',
+              required: true,
+            },
+            {
+              name: 'footerText',
+              type: 'textarea',
+            },
+          ],
         },
         {
-          name: 'url',
-          type: 'text',
-          required: true,
+          label: 'SEO defaults',
+          fields: [
+            {
+              name: 'defaultMetaTitle',
+              type: 'text',
+            },
+            {
+              name: 'defaultMetaDescription',
+              type: 'textarea',
+              required: true,
+            },
+            {
+              name: 'defaultOGImage',
+              type: 'relationship',
+              relationTo: 'media',
+            },
+          ],
+        },
+        {
+          label: 'Social',
+          fields: [
+            {
+              name: 'socialLinks',
+              type: 'array',
+              fields: [
+                {
+                  name: 'label',
+                  type: 'text',
+                  required: true,
+                },
+                {
+                  name: 'url',
+                  type: 'text',
+                  required: true,
+                },
+              ],
+            },
+          ],
         },
       ],
-    },
-    {
-      name: 'footerText',
-      type: 'textarea',
     },
   ],
   hooks: {

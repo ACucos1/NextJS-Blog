@@ -587,13 +587,10 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 export interface SiteSetting {
   id: number;
   siteName: string;
-  siteTagline?: string | null;
+  footerText?: string | null;
   defaultMetaTitle?: string | null;
   defaultMetaDescription: string;
   defaultOGImage?: (number | null) | Media;
-  authorName: string;
-  authorBio?: string | null;
-  authorImage?: (number | null) | Media;
   socialLinks?:
     | {
         label: string;
@@ -601,7 +598,6 @@ export interface SiteSetting {
         id?: string | null;
       }[]
     | null;
-  footerText?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -639,13 +635,10 @@ export interface Homepage {
  */
 export interface SiteSettingsSelect<T extends boolean = true> {
   siteName?: T;
-  siteTagline?: T;
+  footerText?: T;
   defaultMetaTitle?: T;
   defaultMetaDescription?: T;
   defaultOGImage?: T;
-  authorName?: T;
-  authorBio?: T;
-  authorImage?: T;
   socialLinks?:
     | T
     | {
@@ -653,7 +646,6 @@ export interface SiteSettingsSelect<T extends boolean = true> {
         url?: T;
         id?: T;
       };
-  footerText?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
