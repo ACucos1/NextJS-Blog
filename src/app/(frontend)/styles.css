@@ -231,9 +231,26 @@ img {
 }
 
 .hero {
+  align-items: center;
+  display: grid;
+  gap: var(--space-5);
+  grid-template-columns: auto minmax(0, 1fr);
+}
+
+.hero__content {
   display: grid;
   gap: var(--space-3);
   max-width: var(--prose-width);
+}
+
+.hero__portrait {
+  aspect-ratio: 1;
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  height: 9rem;
+  object-fit: cover;
+  object-position: center top;
+  width: 9rem;
 }
 
 .hero h1 {
@@ -454,5 +471,9 @@ img {
 
   .site-nav {
     gap: var(--space-3);
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
   }
 }
