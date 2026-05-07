@@ -69,21 +69,25 @@ export default async function HomePage() {
     <Container className="home-page">
       <section className="hero">
         {portrait?.url ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            alt={portrait.alt}
-            className="hero__portrait"
-            src={portrait.sizes?.card?.url || portrait.url}
-          />
+          <div className="hero__portrait-block">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              alt={portrait.alt}
+              className="hero__portrait"
+              src={portrait.sizes?.card?.url || portrait.url}
+            />
+          </div>
         ) : null}
 
         <div className="hero__content">
-          <p className="hero__eyebrow">Personal blog</p>
-          <h1>{homepage?.headline || 'Notes on building, design, and software.'}</h1>
+          <p className="hero__eyebrow">Software, writing, and épée</p>
+          <h1>{homepage?.headline || 'A personal blog about building with precision.'}</h1>
           {homepage?.intro ? (
             <RichText className="hero__intro hero__intro-rich-text" content={homepage.intro} />
           ) : (
-            <p className="hero__intro">Welcome to my corner of the web.</p>
+            <p className="hero__intro">
+              Notes on software, design, and the long discipline of getting better—on screen and on piste.
+            </p>
           )}
         </div>
       </section>

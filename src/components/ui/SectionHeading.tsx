@@ -5,5 +5,12 @@ type Props = {
 }
 
 export const SectionHeading = ({ children }: Props) => {
-  return <h2 className="section-heading">{children}</h2>
+  return (
+    <h2 className="section-heading">
+      <span aria-hidden="true" className="section-heading__motif">
+        <span className="section-heading__blade" />
+      </span>
+      <span>{children}</span>
+    </h2>
+  )
 }

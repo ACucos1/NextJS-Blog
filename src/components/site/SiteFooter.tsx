@@ -6,10 +6,15 @@ type Props = {
 }
 
 export const SiteFooter = ({ siteSettings }: Props) => {
+  const siteName = siteSettings?.siteName || 'acucoscan'
+
   return (
     <footer className="site-footer">
       <Container className="site-footer__inner">
-        <p>{siteSettings?.footerText || `© ${new Date().getFullYear()} ${siteSettings?.siteName || ''}`}</p>
+        <div className="site-footer__identity">
+          <p>{siteSettings?.footerText || `© ${new Date().getFullYear()} ${siteName}`}</p>
+          {!siteSettings?.footerText ? <p>Software, writing, and épée.</p> : null}
+        </div>
 
         <ul className="footer-links">
           <li>

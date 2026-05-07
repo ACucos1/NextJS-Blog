@@ -23,7 +23,7 @@ export const SiteHeader = ({ navigationPages, siteName }: Props) => {
     <header className="site-header">
       <Container className="site-header__inner">
         <Link className="site-brand" href="/">
-          {siteName || 'My Blog'}
+          {siteName || 'acucoscan'}
         </Link>
 
         <div className="site-header__actions">
